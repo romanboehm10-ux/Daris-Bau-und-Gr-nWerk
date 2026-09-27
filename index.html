@@ -1,899 +1,2034 @@
-"use client";
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+  <title>Daris Bau & Grünwerk | Gartenpflege & Außenreinigung</title>
+  <meta name="description" content="Daris Bau & Grünwerk – professionelle Gartenpflege, Gartensäuberung, Grundstückspflege sowie Terrassen-, Glas- und Außenreinigung. Jetzt unverbindlich anfragen.">
+  <meta name="theme-color" content="#12382a">
 
-const company = {
-  name: "Daris Bau & Grünwerk",
-  owner: "[INHABER]",
-  phone: "[TELEFONNUMMER]",
-  whatsapp: "[WHATSAPP-NUMMER]",
-  email: "[E-MAIL]",
-  address: "[ADRESSE]",
-  city: "[ORT]",
-  region: "[STÄDTE / REGION]",
-};
+  <style>
+    :root {
+      --green-950: #0b2119;
+      --green-900: #103526;
+      --green-800: #164a35;
+      --green-700: #1d6245;
+      --green-500: #4d8b68;
+      --green-100: #e8f0eb;
 
-const services = [
-  {
-    number: "01",
-    title: "Gartenpflege",
-    text: "Regelmäßige und gründliche Pflege für dauerhaft gepflegte Gärten und Grundstücke.",
-  },
-  {
-    number: "02",
-    title: "Gartensäuberung",
-    text: "Wir bringen auch stark beanspruchte oder verwilderte Außenbereiche wieder in einen gepflegten Zustand.",
-  },
-  {
-    number: "03",
-    title: "Unkrautentfernung",
-    text: "Gründliche Entfernung von störendem Unkraut auf Beeten, Wegen, Terrassen und Außenflächen.",
-  },
-  {
-    number: "04",
-    title: "Heckenpflege",
-    text: "Sauberer und professioneller Hecken- und Strauchschnitt für ein ordentliches Erscheinungsbild.",
-  },
-  {
-    number: "05",
-    title: "Rasenschnitt & Rasenpflege",
-    text: "Sauberer Rasenschnitt und Pflege für einen gepflegten, einheitlichen Gesamteindruck.",
-  },
-  {
-    number: "06",
-    title: "Hochdruckreinigung",
-    text: "Gründliche Reinigung von verschmutzten Terrassen, Wegen und anderen Außenflächen.",
-  },
-  {
-    number: "07",
-    title: "Terrassenreinigung",
-    text: "Entfernung von Schmutz, Ablagerungen und Verschmutzungen auf Terrassenflächen.",
-  },
-  {
-    number: "08",
-    title: "Glasreinigung",
-    text: "Professionelle Reinigung von Glasflächen im Außenbereich.",
-  },
-  {
-    number: "09",
-    title: "Terrassendachreinigung",
-    text: "Gründliche Reinigung von Terrassendächern und Überdachungen.",
-  },
-];
+      --dark: #171c19;
+      --gray: #66706a;
+      --light: #f7f6f1;
+      --white: #ffffff;
+      --sand: #d9cbb2;
+      --border: rgba(23, 28, 25, 0.10);
 
-const faqs = [
-  {
-    q: "Welche Arbeiten übernehmen Sie?",
-    a: "Von Gartenpflege und Gartensäuberung über Unkraut- und Heckenpflege bis hin zur Reinigung von Terrassen, Glasflächen und Terrassendächern.",
-  },
-  {
-    q: "In welchem Gebiet sind Sie tätig?",
-    a: `Wir sind im Einsatzgebiet ${company.region}. Die genaue Verfügbarkeit können Sie direkt telefonisch oder per WhatsApp erfragen.`,
-  },
-  {
-    q: "Machen Sie auch stark verwilderte Gärten?",
-    a: "Ja. Auch stark verwilderte oder länger nicht gepflegte Außenbereiche können angefragt werden. Wir besprechen zunächst, welche Arbeiten sinnvoll sind.",
-  },
-  {
-    q: "Übernehmen Sie einmalige Gartensäuberungen?",
-    a: "Ja. Neben regelmäßiger Pflege sind auch einmalige Säuberungen und Aufbereitungen möglich.",
-  },
-  {
-    q: "Bieten Sie regelmäßige Gartenpflege an?",
-    a: "Ja. Der gewünschte Umfang und die Häufigkeit können individuell abgestimmt werden.",
-  },
-  {
-    q: "Was kostet eine Gartensäuberung?",
-    a: "Der Aufwand hängt unter anderem von Größe, Zustand und gewünschten Arbeiten ab. Für eine konkrete Einschätzung können Sie uns direkt kontaktieren.",
-  },
-  {
-    q: "Kann ich Fotos über WhatsApp schicken?",
-    a: "Ja. Wenn WhatsApp verfügbar ist, können Sie Ihr Anliegen und aussagekräftige Fotos direkt senden. Das erleichtert die erste Einschätzung.",
-  },
-  {
-    q: "Kann ich mehrere Leistungen kombinieren?",
-    a: "Natürlich. Gartenpflege, Reinigung und weitere Arbeiten können je nach Bedarf miteinander kombiniert werden.",
-  },
-];
+      --container: 1180px;
+      --radius: 22px;
+      --shadow: 0 20px 60px rgba(11, 33, 25, 0.10);
+    }
 
-function ArrowIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
-      <path d="M5 12h14" />
-      <path d="m13 6 6 6-6 6" />
-    </svg>
-  );
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-function CheckIcon() {
-  return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <path d="m5 12 4 4L19 6" />
-    </svg>
-  );
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-function PhoneIcon() {
-  return (
-    <svg
-      width="19"
-      height="19"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.08 5.18 2 2 0 0 1 5.06 3h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L9 10.73a16 16 0 0 0 4.27 4.27l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z" />
-    </svg>
-  );
-}
+    body {
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      color: var(--dark);
+      background: var(--light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-function WhatsAppIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.5 3.5A11.85 11.85 0 0 0 12.08 0C5.54 0 .22 5.32.22 11.86c0 2.09.55 4.13 1.59 5.93L.12 24l6.35-1.66a11.84 11.84 0 0 0 5.61 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.14-3.45-8.41ZM12.09 21.7h-.01a9.82 9.82 0 0 1-5.01-1.37l-.36-.21-3.77.99 1.01-3.67-.23-.38a9.82 9.82 0 0 1-1.5-5.2c0-5.42 4.41-9.83 9.84-9.83 2.63 0 5.1 1.03 6.96 2.9a9.79 9.79 0 0 1 2.88 6.98c0 5.42-4.41 9.83-9.81 9.83Zm5.39-7.37c-.29-.15-1.72-.85-1.99-.95-.27-.1-.46-.15-.66.15-.19.29-.75.95-.92 1.15-.17.19-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.49.1-.19.05-.37-.02-.52-.07-.15-.66-1.59-.9-2.18-.24-.57-.48-.49-.66-.5h-.56c-.19 0-.51.07-.78.37-.27.29-1.02.99-1.02 2.41s1.04 2.8 1.19 2.99c.15.19 2.04 3.11 4.95 4.36.69.3 1.23.48 1.65.61.69.22 1.31.19 1.8.12.55-.08 1.72-.7 1.97-1.37.24-.68.24-1.25.17-1.37-.07-.12-.27-.19-.56-.34Z" />
-    </svg>
-  );
-}
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [faqOpen, setFaqOpen] = useState<number | null>(null);
-  const [beforePosition, setBeforePosition] = useState(50);
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-  const whatsappNumber = company.whatsapp.replace(/\D/g, "");
-  const whatsappUrl =
-    whatsappNumber && whatsappNumber !== ""
-      ? `https://wa.me/${whatsappNumber}`
-      : "#kontakt";
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
 
-  return (
-    <main className="min-h-screen bg-[#f7f6f1] text-[#1d2420]">
-      {/* HEADER */}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#18231e]/95 text-white backdrop-blur-xl">
-        <div className="mx-auto flex h-[76px] max-w-[1380px] items-center justify-between px-5 sm:px-8 lg:px-10">
-          <Link href="#" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#b7c8a6]/40 bg-[#294033]">
-              <span className="text-lg font-semibold text-[#c8d8b9]">D</span>
-            </div>
+    button {
+      cursor: pointer;
+    }
 
-            <div>
-              <div className="text-[15px] font-semibold tracking-[-0.02em]">
-                Daris Bau & Grünwerk
-              </div>
-              <div className="hidden text-[9px] uppercase tracking-[0.25em] text-[#aeb8b1] sm:block">
-                Garten · Pflege · Sauberkeit
-              </div>
-            </div>
-          </Link>
+    .container {
+      width: min(calc(100% - 40px), var(--container));
+      margin: 0 auto;
+    }
 
-          <nav className="hidden items-center gap-7 lg:flex">
-            {[
-              ["Leistungen", "#leistungen"],
-              ["Über uns", "#ueber-uns"],
-              ["Projekte", "#projekte"],
-              ["Bewertungen", "#bewertungen"],
-              ["FAQ", "#faq"],
-              ["Kontakt", "#kontakt"],
-            ].map(([label, href]) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-[13px] text-white/70 transition hover:text-white"
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
+    /* =========================
+       HEADER
+    ========================= */
 
-          <div className="hidden lg:block">
-            <Link
-              href="#kontakt"
-              className="inline-flex items-center gap-2 rounded-full bg-[#d7e3c9] px-5 py-3 text-[13px] font-semibold text-[#1c2a22] transition hover:bg-white"
-            >
-              Angebot anfragen
-              <ArrowIcon />
-            </Link>
-          </div>
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: 0.3s ease;
+    }
 
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 lg:hidden"
-            aria-label="Menü öffnen"
-          >
-            <div className="space-y-1.5">
-              <span className="block h-px w-5 bg-white" />
-              <span className="block h-px w-5 bg-white" />
-              <span className="block h-px w-3 bg-white" />
-            </div>
-          </button>
+    header.scrolled {
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    }
+
+    .nav {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      color: white;
+      transition: color 0.3s;
+    }
+
+    header.scrolled .logo {
+      color: var(--green-900);
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--green-800);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+
+    .logo-text {
+      line-height: 1.05;
+    }
+
+    .logo-text strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    .logo-text span {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      opacity: 0.75;
+      margin-top: 3px;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    header.scrolled .desktop-nav {
+      color: var(--dark);
+    }
+
+    .desktop-nav a {
+      position: relative;
+    }
+
+    .desktop-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      background: var(--green-500);
+      transition: width .25s;
+    }
+
+    .desktop-nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: white;
+      color: var(--green-900);
+      font-weight: 700;
+    }
+
+    header.scrolled .nav-cta {
+      background: var(--green-900);
+      color: white;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--green-900);
+      color: white;
+      font-size: 22px;
+    }
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: var(--green-950);
+      z-index: 2000;
+      padding: 25px;
+      transform: translateX(100%);
+      transition: transform .4s ease;
+    }
+
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+
+    .mobile-menu-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mobile-close {
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50%;
+      background: transparent;
+      color: white;
+      font-size: 22px;
+    }
+
+    .mobile-links {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 80px;
+    }
+
+    .mobile-links a {
+      color: white;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 820px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(7, 28, 20, .92) 0%,
+          rgba(7, 28, 20, .72) 48%,
+          rgba(7, 28, 20, .20) 100%
+        ),
+        url("images/hero.jpg") center/cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 70%, var(--green-950));
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      padding-top: 90px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-weight: 800;
+      color: #c6dbc9;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 32px;
+      height: 2px;
+      background: #8db59a;
+    }
+
+    h1 {
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: .98;
+      letter-spacing: -0.055em;
+      max-width: 850px;
+    }
+
+    .hero p {
+      margin-top: 28px;
+      max-width: 650px;
+      font-size: 18px;
+      color: rgba(255,255,255,.82);
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 35px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 15px 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 750;
+      transition: .25s ease;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--green-900);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
+    }
+
+    .btn-outline {
+      border-color: rgba(255,255,255,.35);
+      color: white;
+      background: rgba(255,255,255,.05);
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: var(--green-900);
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-top: 40px;
+      color: rgba(255,255,255,.86);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* =========================
+       GENERAL SECTIONS
+    ========================= */
+
+    section {
+      padding: 110px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 55px;
+    }
+
+    .section-label {
+      color: var(--green-700);
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .15em;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+    }
+
+    .section-intro {
+      max-width: 480px;
+      color: var(--gray);
+      font-size: 17px;
+    }
+
+    /* =========================
+       SERVICES
+    ========================= */
+
+    .services {
+      background: var(--light);
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .service-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px;
+      min-height: 240px;
+      transition: .3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+      border-color: transparent;
+    }
+
+    .service-number {
+      color: var(--green-500);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .service-card h3 {
+      font-size: 22px;
+      margin: 45px 0 10px;
+      letter-spacing: -.025em;
+    }
+
+    .service-card p {
+      color: var(--gray);
+      font-size: 15px;
+    }
+
+    /* =========================
+       INTRO / ABOUT
+    ========================= */
+
+    .about {
+      background: white;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-image {
+      min-height: 580px;
+      border-radius: 30px;
+      background:
+        linear-gradient(rgba(15,50,37,.08), rgba(15,50,37,.08)),
+        url("images/about.jpg") center/cover no-repeat;
+    }
+
+    .about-copy p {
+      color: var(--gray);
+      font-size: 17px;
+      margin-top: 25px;
+    }
+
+    .about-points {
+      margin-top: 35px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .about-point {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .check {
+      flex: 0 0 auto;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: var(--green-100);
+      color: var(--green-700);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       BEFORE AFTER
+    ========================= */
+
+    .before-after-section {
+      background: var(--green-950);
+      color: white;
+    }
+
+    .before-after-section .section-label {
+      color: #9bc2a8;
+    }
+
+    .before-after-section .section-intro {
+      color: rgba(255,255,255,.65);
+    }
+
+    .comparison {
+      position: relative;
+      height: 580px;
+      border-radius: 28px;
+      overflow: hidden;
+      user-select: none;
+      box-shadow: 0 25px 70px rgba(0,0,0,.3);
+    }
+
+    .comparison img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .comparison-before {
+      clip-path: inset(0 50% 0 0);
+    }
+
+    .comparison-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: white;
+      transform: translateX(-50%);
+      z-index: 4;
+    }
+
+    .comparison-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: white;
+      color: var(--green-900);
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      z-index: 5;
+      font-weight: 900;
+      box-shadow: 0 8px 25px rgba(0,0,0,.2);
+    }
+
+    .comparison-range {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: ew-resize;
+      z-index: 10;
+    }
+
+    .comparison-label {
+      position: absolute;
+      top: 20px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,.5);
+      backdrop-filter: blur(10px);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      z-index: 6;
+    }
+
+    .comparison-label.before {
+      left: 20px;
+    }
+
+    .comparison-label.after {
+      right: 20px;
+    }
+
+    /* =========================
+       WHY US
+    ========================= */
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .why-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    .why-card span {
+      display: block;
+      color: var(--green-500);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 30px;
+    }
+
+    .why-card h3 {
+      font-size: 23px;
+      margin-bottom: 9px;
+    }
+
+    .why-card p {
+      color: var(--gray);
+    }
+
+    /* =========================
+       PROCESS
+    ========================= */
+
+    .process {
+      background: #ecece5;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .process-step {
+      background: white;
+      padding: 30px;
+      border-radius: 22px;
+      min-height: 250px;
+    }
+
+    .step-number {
+      color: var(--green-500);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .process-step h3 {
+      margin-top: 55px;
+      font-size: 22px;
+    }
+
+    .process-step p {
+      color: var(--gray);
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* =========================
+       PROJECTS
+    ========================= */
+
+    .projects {
+      background: white;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
+
+    .project-card {
+      border-radius: 25px;
+      overflow: hidden;
+      background: var(--light);
+    }
+
+    .project-image {
+      height: 330px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .project-1 {
+      background-image: url("images/project-1.jpg");
+    }
+
+    .project-2 {
+      background-image: url("images/project-2.jpg");
+    }
+
+    .project-content {
+      padding: 25px;
+    }
+
+    .project-content small {
+      color: var(--green-700);
+      font-weight: 800;
+    }
+
+    .project-content h3 {
+      font-size: 24px;
+      margin: 7px 0;
+    }
+
+    .project-content p {
+      color: var(--gray);
+      font-size: 15px;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta-section {
+      padding: 80px 0;
+      background: var(--light);
+    }
+
+    .cta-box {
+      position: relative;
+      overflow: hidden;
+      padding: 75px;
+      border-radius: 32px;
+      color: white;
+      background:
+        linear-gradient(120deg, rgba(10,39,28,.98), rgba(22,74,53,.90));
+    }
+
+    .cta-box::before {
+      content: "";
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.05);
+      right: -100px;
+      top: -180px;
+    }
+
+    .cta-box h2 {
+      max-width: 700px;
+    }
+
+    .cta-box p {
+      margin: 20px 0 30px;
+      color: rgba(255,255,255,.72);
+      max-width: 600px;
+    }
+
+    /* =========================
+       CONTACT
+    ========================= */
+
+    .contact {
+      background: white;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 70px;
+    }
+
+    .contact-info {
+      display: grid;
+      gap: 18px;
+      margin-top: 35px;
+    }
+
+    .contact-item {
+      padding: 20px;
+      border-radius: 17px;
+      background: var(--light);
+    }
+
+    .contact-item small {
+      display: block;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+
+    .contact-item strong {
+      font-size: 17px;
+    }
+
+    .form {
+      display: grid;
+      gap: 16px;
+      padding: 35px;
+      background: var(--light);
+      border-radius: 28px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      padding: 14px 15px;
+      border-radius: 13px;
+      outline: none;
+      transition: .2s;
+    }
+
+    .field textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--green-500);
+      box-shadow: 0 0 0 3px rgba(77,139,104,.12);
+    }
+
+    .form-note {
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    /* =========================
+       FAQ
+    ========================= */
+
+    .faq {
+      background: var(--light);
+    }
+
+    .faq-list {
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 25px 0;
+      border: 0;
+      background: transparent;
+      display: flex;
+      justify-content: space-between;
+      text-align: left;
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    .faq-question span:last-child {
+      font-size: 25px;
+      color: var(--green-700);
+      transition: .2s;
+    }
+
+    .faq-item.active .faq-question span:last-child {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease;
+    }
+
+    .faq-answer p {
+      padding: 0 0 25px;
+      color: var(--gray);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: var(--green-950);
+      color: white;
+      padding: 70px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 50px;
+    }
+
+    footer .logo {
+      margin-bottom: 20px;
+    }
+
+    .footer-description {
+      color: rgba(255,255,255,.58);
+      max-width: 350px;
+    }
+
+    .footer-column h4 {
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .footer-column a,
+    .footer-column p {
+      display: block;
+      color: rgba(255,255,255,.58);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .footer-column a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      margin-top: 55px;
+      padding-top: 22px;
+      color: rgba(255,255,255,.4);
+      font-size: 12px;
+    }
+
+    /* =========================
+       MOBILE STICKY CTA
+    ========================= */
+
+    .mobile-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      padding: 9px;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 -10px 30px rgba(0,0,0,.08);
+    }
+
+    .mobile-cta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+
+    .mobile-cta a {
+      padding: 12px 5px;
+      text-align: center;
+      border-radius: 10px;
+      background: var(--green-100);
+      color: var(--green-900);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .mobile-cta a:last-child {
+      background: var(--green-900);
+      color: white;
+    }
+
+    /* =========================
+       ANIMATIONS
+    ========================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 950px) {
+      .desktop-nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .hero {
+        min-height: 760px;
+      }
+
+      .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-image {
+        min-height: 450px;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        width: min(calc(100% - 28px), var(--container));
+      }
+
+      header {
+        background: rgba(10,32,24,.7);
+        backdrop-filter: blur(15px);
+      }
+
+      .nav {
+        height: 70px;
+      }
+
+      .logo-text strong {
+        font-size: 14px;
+      }
+
+      .logo-mark {
+        width: 38px;
+        height: 38px;
+      }
+
+      .hero {
+        min-height: 760px;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(7, 28, 20, .78),
+            rgba(7, 28, 20, .94)
+          ),
+          url("images/hero.jpg") center/cover no-repeat;
+      }
+
+      .hero-content {
+        padding-top: 70px;
+      }
+
+      h1 {
+        font-size: clamp(45px, 14vw, 68px);
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+
+      .trust-row {
+        display: grid;
+        gap: 9px;
+      }
+
+      section {
+        padding: 75px 0;
+      }
+
+      .section-header {
+        display: block;
+        margin-bottom: 35px;
+      }
+
+      .section-intro {
+        margin-top: 20px;
+      }
+
+      .service-grid,
+      .why-grid,
+      .process-grid,
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card {
+        min-height: auto;
+      }
+
+      .service-card h3 {
+        margin-top: 30px;
+      }
+
+      .about-image {
+        min-height: 360px;
+      }
+
+      .comparison {
+        height: 420px;
+      }
+
+      .cta-box {
+        padding: 45px 25px;
+        border-radius: 24px;
+      }
+
+      .form {
+        padding: 22px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+
+      .mobile-cta {
+        display: block;
+      }
+
+      body {
+        padding-bottom: 67px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       MOBILE MENU
+  ========================== -->
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-top">
+      <div class="logo">
+        <div class="logo-mark">DG</div>
+        <div class="logo-text">
+          <strong>Daris Bau & Grünwerk</strong>
+          <span>Garten · Pflege · Sauberkeit</span>
         </div>
+      </div>
 
-        {menuOpen && (
-          <div className="border-t border-white/10 bg-[#18231e] px-5 py-6 lg:hidden">
-            <nav className="flex flex-col gap-5">
-              {[
-                ["Leistungen", "#leistungen"],
-                ["Über uns", "#ueber-uns"],
-                ["Projekte", "#projekte"],
-                ["Bewertungen", "#bewertungen"],
-                ["FAQ", "#faq"],
-                ["Kontakt", "#kontakt"],
-              ].map(([label, href]) => (
-                <Link
-                  onClick={() => setMenuOpen(false)}
-                  key={href}
-                  href={href}
-                  className="text-lg text-white/80"
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        )}
-      </header>
+      <button class="mobile-close" id="mobileClose">×</button>
+    </div>
 
-      {/* HERO */}
-      <section className="relative min-h-[760px] overflow-hidden bg-[#18231e] pt-[76px] text-white">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,#17231d_0%,rgba(23,35,29,.94)_35%,rgba(23,35,29,.45)_68%,rgba(23,35,29,.35)_100%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_45%,rgba(183,200,166,.12),transparent_32%)]" />
-          <div className="absolute right-0 top-0 h-full w-[58%] bg-[#3d5948]" />
+    <nav class="mobile-links">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ueber-uns">Über uns</a>
+      <a href="#projekte">Projekte</a>
+      <a href="#bewertungen">Bewertungen</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </div>
 
-          {/* HERO IMAGE */}
-          <div className="absolute inset-y-0 right-0 w-[64%] opacity-70 mix-blend-luminosity">
-            <div className="flex h-full items-center justify-center bg-[#526957]">
-              <div className="px-8 text-center text-white/40">
-                <div className="mb-3 text-xs uppercase tracking-[0.3em]">
-                  [HERO IMAGE]
-                </div>
-                <div className="text-sm">
-                  Professionell gepflegter deutscher Garten
-                </div>
-              </div>
-            </div>
-          </div>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header id="header">
+    <div class="container nav">
+
+      <a href="#" class="logo">
+        <div class="logo-mark">DG</div>
+
+        <div class="logo-text">
+          <strong>Daris Bau & Grünwerk</strong>
+          <span>Garten · Pflege · Sauberkeit</span>
         </div>
+      </a>
 
-        <div className="relative mx-auto flex min-h-[680px] max-w-[1380px] items-center px-5 py-20 sm:px-8 lg:px-10">
-          <div className="max-w-[760px]">
-            <div className="mb-7 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-[#c3d2b5]">
-              <span className="h-px w-9 bg-[#a9bd98]" />
-              Garten · Grundstück · Außenbereich
-            </div>
+      <nav class="desktop-nav">
+        <a href="#leistungen">Leistungen</a>
+        <a href="#ueber-uns">Über uns</a>
+        <a href="#projekte">Projekte</a>
+        <a href="#bewertungen">Bewertungen</a>
+        <a href="#faq">FAQ</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#kontakt" class="nav-cta">Angebot anfragen</a>
+      </nav>
 
-            <h1 className="max-w-[780px] text-[clamp(3.4rem,7vw,7rem)] font-medium leading-[.91] tracking-[-0.065em]">
-              Garten.
-              <br />
-              Pflege.
-              <br />
-              <span className="text-[#c7d7b8]">Sauberkeit.</span>
-            </h1>
+      <button class="menu-toggle" id="menuToggle">☰</button>
 
-            <p className="mt-8 max-w-[600px] text-[17px] leading-7 text-white/70 sm:text-[19px]">
-              Wir bringen Gärten und Außenbereiche wieder in Bestform – von
-              professioneller Gartenpflege bis zur gründlichen Reinigung
-              kompletter Außenflächen.
-            </p>
+    </div>
+  </header>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="#kontakt"
-                className="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-[#d8e4ca] px-7 text-sm font-semibold text-[#1b2921] transition hover:-translate-y-0.5 hover:bg-white"
-              >
-                Kostenloses Angebot anfragen
-                <ArrowIcon />
-              </Link>
 
-              <a
-                href={`tel:${company.phone}`}
-                className="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full border border-white/20 px-7 text-sm font-medium text-white transition hover:bg-white/10"
-              >
-                <PhoneIcon />
-                Jetzt anrufen
-              </a>
-            </div>
+  <!-- =========================
+       HERO
+  ========================== -->
 
-            <div className="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-xs text-white/60">
-              {[
-                "Zuverlässig",
-                "Saubere Arbeit",
-                "Faire Beratung",
-                "Regional für Sie da",
-              ].map((item) => (
-                <div key={item} className="flex items-center gap-2">
-                  <span className="text-[#c7d7b8]">
-                    <CheckIcon />
-                  </span>
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+  <main>
 
-        <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-[#17231d]/50 backdrop-blur-sm">
-          <div className="mx-auto flex max-w-[1380px] items-center justify-between px-5 py-4 text-[11px] uppercase tracking-[0.18em] text-white/40 sm:px-8 lg:px-10">
-            <span>{company.region}</span>
-            <span className="hidden sm:block">
-              Gartenpflege · Reinigung · Grundstückspflege
-            </span>
-            <span>Seitlich scrollen ↓</span>
-          </div>
-        </div>
-      </section>
+    <section class="hero">
 
-      {/* INTRO */}
-      <section className="bg-[#f7f6f1] py-24 sm:py-32">
-        <div className="mx-auto grid max-w-[1380px] gap-12 px-5 sm:px-8 lg:grid-cols-[.7fr_1.3fr] lg:px-10">
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5c7562]">
-              Daris Bau & Grünwerk
-            </div>
+      <div class="container">
+        <div class="hero-content reveal">
+
+          <div class="eyebrow">
+            Gartenpflege & Außenreinigung
           </div>
 
-          <div>
-            <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[.98] tracking-[-0.055em] text-[#1d2922]">
-              Gepflegte Außenbereiche machen einen sichtbaren Unterschied.
-            </h2>
+          <h1>
+            Garten. Pflege. Sauberkeit.
+          </h1>
 
-            <div className="mt-8 grid gap-8 md:grid-cols-2">
-              <p className="text-[16px] leading-7 text-[#647067]">
-                Von der regelmäßigen Gartenpflege bis zur gründlichen Reinigung
-                kompletter Außenbereiche – wir unterstützen Privatkunden,
-                Hausbesitzer und Gewerbekunden bei der Pflege und Aufbereitung
-                ihrer Grundstücke.
-              </p>
+          <p>
+            Wir bringen Gärten, Grundstücke und Außenbereiche wieder
+            in einen gepflegten Zustand – von der regelmäßigen Gartenpflege
+            bis zur gründlichen Reinigung.
+          </p>
 
-              <p className="text-[16px] leading-7 text-[#647067]">
-                Persönlicher Kontakt, klare Absprachen und ein sauberes
-                Ergebnis stehen dabei im Mittelpunkt. Ganz gleich, ob eine
-                einzelne Arbeit oder eine umfassendere Aufbereitung gefragt
-                ist.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+          <div class="hero-buttons">
+            <a href="#kontakt" class="btn btn-primary">
+              Kostenloses Angebot anfragen →
+            </a>
 
-      {/* LEISTUNGEN */}
-      <section id="leistungen" className="bg-[#e9ece5] py-24 sm:py-32">
-        <div className="mx-auto max-w-[1380px] px-5 sm:px-8 lg:px-10">
-          <div className="mb-14 grid gap-8 lg:grid-cols-[.65fr_1.35fr]">
-            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5c7562]">
-              Leistungen
-            </div>
-
-            <div>
-              <h2 className="text-[clamp(2.7rem,5vw,5.2rem)] font-medium leading-[.95] tracking-[-0.055em]">
-                Alles für einen
-                <br />
-                gepflegten Außenbereich.
-              </h2>
-              <p className="mt-6 max-w-2xl text-[16px] leading-7 text-[#68736b]">
-                Professionelle Unterstützung rund um Garten, Grundstück und
-                Außenflächen – flexibel nach Ihrem tatsächlichen Bedarf.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid gap-px overflow-hidden rounded-[28px] border border-[#d5dad2] bg-[#d5dad2] sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
-              <article
-                key={service.number}
-                className="group bg-[#f5f6f2] p-7 transition hover:bg-[#18231e] hover:text-white sm:p-9"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="text-xs text-[#839087] group-hover:text-[#a9bd98]">
-                    {service.number}
-                  </span>
-                  <span className="opacity-30 transition group-hover:translate-x-1 group-hover:opacity-100">
-                    <ArrowIcon />
-                  </span>
-                </div>
-
-                <h3 className="mt-16 text-[25px] font-medium tracking-[-0.035em]">
-                  {service.title}
-                </h3>
-
-                <p className="mt-4 text-[14px] leading-6 text-[#727c75] group-hover:text-white/60">
-                  {service.text}
-                </p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-col items-start justify-between gap-5 rounded-[24px] bg-[#18231e] p-7 text-white sm:flex-row sm:items-center sm:p-9">
-            <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-[#a9bd98]">
-                Individuelle Arbeiten
-              </div>
-              <div className="mt-2 text-xl font-medium">
-                Leistung nicht gefunden?
-              </div>
-              <p className="mt-1 text-sm text-white/55">
-                Fragen Sie uns einfach – wir besprechen Ihr Anliegen persönlich.
-              </p>
-            </div>
-
-            <Link
-              href="#kontakt"
-              className="inline-flex shrink-0 items-center gap-3 rounded-full bg-[#d7e3c9] px-6 py-3.5 text-sm font-semibold text-[#1c2a22]"
-            >
-              Anfrage stellen
-              <ArrowIcon />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* BEFORE / AFTER */}
-      <section className="bg-[#18231e] py-24 text-white sm:py-32">
-        <div className="mx-auto max-w-[1380px] px-5 sm:px-8 lg:px-10">
-          <div className="mb-12 flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a9bd98]">
-                Vorher / Nachher
-              </div>
-              <h2 className="mt-5 text-[clamp(2.8rem,5vw,5.4rem)] font-medium leading-[.94] tracking-[-0.06em]">
-                Der Unterschied
-                <br />
-                ist sichtbar.
-              </h2>
-            </div>
-
-            <p className="max-w-md text-sm leading-6 text-white/50">
-              Echte Projektfotos können hier später eingesetzt werden. Der
-              Slider zeigt den gewünschten visuellen Aufbau.
-            </p>
-          </div>
-
-          <div className="relative aspect-[16/9] max-h-[700px] overflow-hidden rounded-[30px] border border-white/10 bg-[#4a594e] select-none">
-            {/* AFTER */}
-            <div className="absolute inset-0 flex items-center justify-center bg-[#728774]">
-              <div className="text-center">
-                <div className="text-xs uppercase tracking-[0.25em] text-white/50">
-                  [NACHHER-BILD]
-                </div>
-                <div className="mt-2 text-lg text-white/70">
-                  Gepflegter Außenbereich
-                </div>
-              </div>
-            </div>
-
-            {/* BEFORE */}
-            <div
-              className="absolute inset-y-0 left-0 overflow-hidden bg-[#53524a]"
-              style={{ width: `${beforePosition}%` }}
-            >
-              <div
-                className="flex h-full min-w-[100vw] items-center justify-center"
-                style={{
-                  width: "calc(100vw - 40px)",
-                  maxWidth: "1380px",
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-xs uppercase tracking-[0.25em] text-white/40">
-                    [VORHER-BILD]
-                  </div>
-                  <div className="mt-2 text-lg text-white/60">
-                    Ungepflegter Außenbereich
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="absolute bottom-0 top-0 z-10 w-px bg-white"
-              style={{ left: `${beforePosition}%` }}
-            >
-              <div className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-[#18231e]/80 backdrop-blur">
-                <span className="text-xs">↔</span>
-              </div>
-            </div>
-
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={beforePosition}
-              onChange={(e) => setBeforePosition(Number(e.target.value))}
-              className="absolute inset-0 z-20 h-full w-full cursor-ew-resize opacity-0"
-              aria-label="Vorher-Nachher Vergleich"
-            />
-
-            <span className="absolute left-5 top-5 z-10 rounded-full bg-black/25 px-4 py-2 text-[10px] uppercase tracking-[0.2em] backdrop-blur">
-              Vorher
-            </span>
-
-            <span className="absolute right-5 top-5 z-10 rounded-full bg-white/15 px-4 py-2 text-[10px] uppercase tracking-[0.2em] backdrop-blur">
-              Nachher
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* WHY */}
-      <section id="ueber-uns" className="bg-[#f7f6f1] py-24 sm:py-32">
-        <div className="mx-auto grid max-w-[1380px] gap-14 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:px-10">
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5c7562]">
-              Warum Daris Bau & Grünwerk?
-            </div>
-            <h2 className="mt-5 text-[clamp(2.8rem,5vw,5rem)] font-medium leading-[.95] tracking-[-0.055em]">
-              Persönlich.
-              <br />
-              Zuverlässig.
-              <br />
-              Sauber.
-            </h2>
-          </div>
-
-          <div>
-            <p className="max-w-2xl text-lg leading-8 text-[#626e66]">
-              Unser Anspruch ist einfach: Nach Abschluss der Arbeit soll ein
-              sichtbarer Unterschied erkennbar sein.
-            </p>
-
-            <div className="mt-12 grid gap-0 border-t border-[#d7dbd5]">
-              {[
-                [
-                  "01",
-                  "Persönlicher Service",
-                  "Direkter Kontakt statt anonymer Großbetrieb.",
-                ],
-                [
-                  "02",
-                  "Saubere Arbeit",
-                  "Wir achten auf ein ordentliches Ergebnis und einen sauberen Abschluss.",
-                ],
-                [
-                  "03",
-                  "Zuverlässigkeit",
-                  "Absprachen und Termine werden ernst genommen.",
-                ],
-                [
-                  "04",
-                  "Flexible Lösungen",
-                  "Jeder Garten und jedes Grundstück ist anders.",
-                ],
-                [
-                  "05",
-                  "Faire Beratung",
-                  "Wir besprechen transparent, welche Arbeiten sinnvoll sind.",
-                ],
-                [
-                  "06",
-                  "Alles aus einer Hand",
-                  "Gartenpflege, Gartensäuberung und Reinigung von Außenbereichen.",
-                ],
-              ].map(([number, title, text]) => (
-                <div
-                  key={number}
-                  className="grid grid-cols-[50px_1fr] gap-5 border-b border-[#d7dbd5] py-7 sm:grid-cols-[70px_1fr_1fr]"
-                >
-                  <span className="text-xs text-[#829087]">{number}</span>
-                  <h3 className="text-lg font-medium">{title}</h3>
-                  <p className="text-sm leading-6 text-[#717c74] sm:block">
-                    {text}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ABLAUF */}
-      <section className="bg-[#dfe5dc] py-24 sm:py-32">
-        <div className="mx-auto max-w-[1380px] px-5 sm:px-8 lg:px-10">
-          <div className="mb-14 max-w-3xl">
-            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5c7562]">
-              Der Ablauf
-            </div>
-            <h2 className="mt-5 text-[clamp(2.8rem,5vw,5rem)] font-medium leading-[.95] tracking-[-0.055em]">
-              So einfach geht&apos;s.
-            </h2>
-          </div>
-
-          <div className="grid gap-px overflow-hidden rounded-[28px] bg-[#cbd3ca] md:grid-cols-2 lg:grid-cols-4">
-            {[
-              [
-                "01",
-                "Anfrage senden",
-                "Kontaktieren Sie uns telefonisch, per WhatsApp oder über das Anfrageformular.",
-              ],
-              [
-                "02",
-                "Abstimmung",
-                "Wir besprechen, welche Arbeiten durchgeführt werden sollen.",
-              ],
-              [
-                "03",
-                "Angebot erhalten",
-                "Sie erhalten eine transparente Einschätzung bzw. ein individuelles Angebot.",
-              ],
-              [
-                "04",
-                "Arbeit erledigt",
-                "Wir führen die vereinbarten Arbeiten zuverlässig und sauber durch.",
-              ],
-            ].map(([number, title, text]) => (
-              <div key={number} className="bg-[#e9ede7] p-8 sm:p-10">
-                <div className="text-sm font-medium text-[#6c806f]">
-                  {number}
-                </div>
-                <h3 className="mt-20 text-2xl font-medium tracking-[-0.04em]">
-                  {title}
-                </h3>
-                <p className="mt-4 text-sm leading-6 text-[#707b73]">
-                  {text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PROJEKTE */}
-      <section id="projekte" className="bg-[#f7f6f1] py-24 sm:py-32">
-        <div className="mx-auto max-w-[1380px] px-5 sm:px-8 lg:px-10">
-          <div className="mb-14 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5c7562]">
-                Projekte
-              </div>
-              <h2 className="mt-5 text-[clamp(2.8rem,5vw,5rem)] font-medium leading-[.95] tracking-[-0.055em]">
-                Ergebnisse, die
-                <br />
-                für sich sprechen.
-              </h2>
-            </div>
-
-            <p className="max-w-md text-sm leading-6 text-[#717b74]">
-              Hier können später echte Referenzen mit Vorher-/Nachher-Bildern,
-              Leistungsbeschreibung und Ort präsentiert werden.
-            </p>
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-2">
-            {[
-              "Garten komplett aufbereitet",
-              "Terrasse gründlich gereinigt",
-            ].map((title, i) => (
-              <article key={title} className="group">
-                <div className="relative aspect-[1.25] overflow-hidden rounded-[28px] bg-[#d9ded6]">
-                  <div className="absolute inset-0 flex items-center justify-center text-center">
-                    <div>
-                      <div className="text-xs uppercase tracking-[0.25em] text-[#778278]">
-                        [PROJEKTBILD {i + 1}]
-                      </div>
-                      <div className="mt-2 text-sm text-[#89938b]">
-                        Vorher / Nachher Bilder einsetzen
-                      </div>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-5 left-5 rounded-full bg-[#18231e] px-4 py-2 text-xs text-white">
-                    Referenz {String(i + 1).padStart(2, "0")}
-                  </div>
-                </div>
-
-                <div className="mt-6 flex justify-between gap-5">
-                  <div>
-                    <h3 className="text-2xl font-medium tracking-[-0.035em]">
-                      {title}
-                    </h3>
-                    <p className="mt-2 max-w-xl text-sm leading-6 text-[#717b74]">
-                      [BESCHREIBUNG DER ECHTEN REFERENZ HIER EINFÜGEN]
-                    </p>
-                  </div>
-                  <ArrowIcon />
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* REVIEWS */}
-      <section id="bewertungen" className="bg-[#18231e] py-24 text-white sm:py-32">
-        <div className="mx-auto max-w-[1380px] px-5 sm:px-8 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a9bd98]">
-                Kundenstimmen
-              </div>
-              <h2 className="mt-5 text-[clamp(2.8rem,5vw,5rem)] font-medium leading-[.95] tracking-[-0.055em]">
-                Was unsere
-                <br />
-                Kunden sagen.
-              </h2>
-
-              <div className="mt-8">
-                <div className="text-3xl font-medium">[X.X / 5]</div>
-                <div className="mt-1 text-sm text-white/45">
-                  Google-Bewertung · [XX Bewertungen]
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-3">
-              {["01", "02", "03"].map((item) => (
-                <div
-                  key={item}
-                  className="rounded-[24px] border border-white/10 bg-white/[.035] p-7"
-                >
-                  <div className="text-[#c4d5b5]">★★★★★</div>
-                  <p className="mt-7 text-sm leading-6 text-white/65">
-                    [GOOGLE REVIEW {item}]
-                  </p>
-                  <div className="mt-8 text-xs text-white/35">
-                    [NAME DES KUNDEN]
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* STRONG CTA */}
-      <section className="bg-[#cbd9c0] py-20 sm:py-28">
-        <div className="mx-auto flex max-w-[1380px] flex-col justify-between gap-10 px-5 sm:px-8 lg:flex-row lg:items-end lg:px-10">
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#526650]">
-              Ihr Außenbereich
-            </div>
-            <h2 className="mt-5 max-w-4xl text-[clamp(2.8rem,6vw,6rem)] font-medium leading-[.92] tracking-[-0.06em] text-[#18231e]">
-              Ihr Garten könnte
-              <br />
-              besser aussehen?
-            </h2>
-            <p className="mt-6 max-w-xl text-[16px] leading-7 text-[#59665b]">
-              Lassen Sie uns gemeinsam schauen, was wir für Sie tun können.
-            </p>
-          </div>
-
-          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <Link
-              href="#kontakt"
-              className="inline-flex items-center justify-center gap-3 rounded-full bg-[#18231e] px-7 py-4 text-sm font-semibold text-white transition hover:bg-[#2d4034]"
-            >
-              Kostenloses Angebot
-              <ArrowIcon />
-            </Link>
-
-            <a
-              href={`tel:${company.phone}`}
-              className="inline-flex items-center justify-center gap-3 rounded-full border border-[#7d8f78] px-7 py-4 text-sm font-semibold text-[#18231e]"
-            >
-              <PhoneIcon />
-              Anrufen
+            <a href="tel:[TELEFONNUMMER]" class="btn btn-outline">
+              Jetzt anrufen
             </a>
           </div>
-        </div>
-      </section>
 
-      {/* CONTACT */}
-      <section id="kontakt" className="bg-[#f7f6f1] py-24 sm:py-32">
-        <div className="mx-auto grid max-w-[1380px] gap-14 px-5 sm:px-8 lg:grid-cols-[.75fr_1.25fr] lg:px-10">
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5c7562]">
-              Kontakt
-            </div>
-
-            <h2 className="mt-5 text-[clamp(2.8rem,5vw,5rem)] font-medium leading-[.95] tracking-[-0.055em]">
-              Erzählen Sie uns,
-              <br />
-              was ansteht.
-            </h2>
-
-            <p className="mt-7 max-w-md text-[16px] leading-7 text-[#6b756e]">
-              Beschreiben Sie kurz Ihr Anliegen. Wir melden uns anschließend
-              persönlich bei Ihnen.
-            </p>
-
-            <div className="mt-10 space-y-5 border-t border-[#d7dbd5] pt-7">
-              <a
-                href={`tel:${company.phone}`}
-                className="flex items-center gap-4 text-sm font-medium"
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e2e7df]">
-                  <PhoneIcon />
-                </span>
-                {company.phone}
-              </a>
-
-              <a
-                href={`mailto:${company.email}`}
-                className="flex items-center gap-4 text-sm font-medium"
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e2e7df]">
-                  @
-                </span>
-                {company.email}
-              </a>
-
-              <div className="flex items-center gap-4 text-sm">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e2e7df]">
-                  +
-                </span>
-                {company.address}, {company.city}
-              </div>
-            </div>
+          <div class="trust-row">
+            <span>✓ Zuverlässig</span>
+            <span>✓ Saubere Arbeit</span>
+            <span>✓ Faire Beratung</span>
+            <span>✓ Regional für Sie da</span>
           </div>
 
-          <form className="rounded-[28px] bg-[#e8ebe5] p-6 sm:p-9">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="block">
-                <span className="mb-2 block text-xs font-medium text-[#5d675f]">
-                  Vorname / Name
-                </span>
-                <input
-                  type="text"
-                  placeholder="Max Mustermann"
-                  className="h-14 w-full rounded-xl border border-[#d3d8d0] bg-[#f7f8f5] px-4 text-sm outline-none transition placeholder:text-[#a2aaa4] focus:border-[#6b806e]"
-                />
-              </label>
+        </div>
+      </div>
 
-              <label className="block">
-                <span className="mb-2 block text-xs font-medium text-[#5d675f]">
-                  Telefonnummer
-                </span>
-                <input
-                  type="tel"
-                  placeholder="+49 ..."
-                  className="h-14 w-full rounded-xl border border-[#d3d8d0] bg-[#f7f8f5] px-4 text-sm outline-none transition placeholder:text-[#a2aaa4] focus:border-[#6b806e]"
-                />
-              </label>
+    </section>
 
-              <label className="block">
-                <span className="mb-2 block text-xs font-medium text-[#5d675f]">
-                  E-Mail
-                </span>
-                <input
-                  type="email"
-                  placeholder="name@email.de"
-                  className="h-14 w-full rounded-xl border border-[#d3d8d0] bg-[#f7f8f5] px-4 text-sm outline-none transition placeholder:text-[#a2aaa4] focus:border-[#6b806e]"
-                />
-              </label>
 
-              <label className="block">
-                <span className="mb-2 block text-xs font-medium text-[#5d675f]">
-                  PLZ / Ort
-                </span>
-                <input
-                  type="text"
-                  placeholder="PLZ / Ort"
-                  className="h-14 w-full rounded-xl border border-[#d3d8d0] bg-[#f7f8f5] px-4 text-sm outline-none transition placeholder:text-[#a2aaa4] focus:border-[#6b806e]"
-                />
-              </label>
+    <!-- =========================
+         SERVICES
+    ========================== -->
+
+    <section class="services" id="leistungen">
+
+      <div class="container">
+
+        <div class="section-header reveal">
+
+          <div>
+            <div class="section-label">Leistungen</div>
+
+            <h2>
+              Alles für einen<br>
+              gepflegten Außenbereich.
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            Von der regelmäßigen Gartenpflege bis zur gründlichen
+            Reinigung kompletter Außenbereiche – professionell,
+            unkompliziert und persönlich.
+          </p>
+
+        </div>
+
+
+        <div class="service-grid">
+
+          <article class="service-card reveal">
+            <span class="service-number">01</span>
+            <h3>Gartenpflege</h3>
+            <p>
+              Regelmäßige und gründliche Pflege für dauerhaft
+              gepflegte Gärten und Grundstücke.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">02</span>
+            <h3>Gartensäuberung</h3>
+            <p>
+              Wir bringen auch stark beanspruchte oder verwilderte
+              Außenbereiche wieder in einen gepflegten Zustand.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">03</span>
+            <h3>Unkrautentfernung</h3>
+            <p>
+              Gründliche Entfernung von störendem Unkraut auf
+              Beeten, Wegen, Terrassen und Außenflächen.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">04</span>
+            <h3>Heckenpflege</h3>
+            <p>
+              Sauberer und professioneller Hecken- und Strauchschnitt
+              für ein ordentliches Erscheinungsbild.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">05</span>
+            <h3>Rasenschnitt & Pflege</h3>
+            <p>
+              Sauberer Rasenschnitt und Pflege für eine gepflegte
+              und ordentliche Grünfläche.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">06</span>
+            <h3>Hochdruckreinigung</h3>
+            <p>
+              Gründliche Reinigung von verschmutzten Außenflächen
+              und Bereichen rund um Haus und Grundstück.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">07</span>
+            <h3>Terrassenreinigung</h3>
+            <p>
+              Entfernung von Schmutz, Ablagerungen und
+              Verschmutzungen auf Terrassenflächen.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">08</span>
+            <h3>Glasreinigung</h3>
+            <p>
+              Professionelle Reinigung von Glasflächen
+              im Außenbereich.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">09</span>
+            <h3>Terrassendachreinigung</h3>
+            <p>
+              Gründliche Reinigung von Terrassendächern
+              und Überdachungen.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">10</span>
+            <h3>Außenanlagen</h3>
+            <p>
+              Reinigung und Pflege von Außenbereichen
+              und Grundstücksflächen.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">11</span>
+            <h3>Laub & Gartenabfälle</h3>
+            <p>
+              Entfernung von Laub, Gartenabfällen und
+              sonstigen Rückständen.
+            </p>
+          </article>
+
+          <article class="service-card reveal">
+            <span class="service-number">12</span>
+            <h3>Individuelle Arbeiten</h3>
+            <p>
+              Ihre benötigte Leistung ist nicht aufgeführt?
+              Fragen Sie uns einfach.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
+    <section class="about" id="ueber-uns">
+
+      <div class="container about-grid">
+
+        <div class="about-image reveal"></div>
+
+        <div class="about-copy reveal">
+
+          <div class="section-label">Über uns</div>
+
+          <h2>
+            Persönlich.<br>
+            Zuverlässig.<br>
+            Sauber.
+          </h2>
+
+          <p>
+            Daris Bau & Grünwerk steht für zuverlässige Arbeiten
+            rund um Garten, Grundstück und Außenbereich.
+          </p>
+
+          <p>
+            Unser Anspruch ist einfach: Nach Abschluss der Arbeit
+            soll ein sichtbarer Unterschied erkennbar sein.
+          </p>
+
+          <div class="about-points">
+
+            <div class="about-point">
+              <div class="check">✓</div>
+              <div>
+                <strong>Persönlicher Service</strong>
+                <p>Direkter Kontakt und unkomplizierte Abstimmung.</p>
+              </div>
             </div>
 
-            <label className="mt-5 block">
-              <span className="mb-2 block text-xs font-medium text-[#5d675f]">
-                Gewünschte Leistung
-              </span>
-              <select className="h-14 w-full rounded-xl border border-[#d3d8d0] bg-[#f7f8f5] px-4 text-sm text-[#4f5952] outline-none focus:border-[#6b806e]">
-                <option>Bitte auswählen</option>
+            <div class="about-point">
+              <div class="check">✓</div>
+              <div>
+                <strong>Saubere Ausführung</strong>
+                <p>Wir achten auf ein ordentliches Ergebnis.</p>
+              </div>
+            </div>
+
+            <div class="about-point">
+              <div class="check">✓</div>
+              <div>
+                <strong>Flexible Lösungen</strong>
+                <p>Jeder Garten und jedes Grundstück ist anders.</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         BEFORE AFTER
+    ========================== -->
+
+    <section class="before-after-section">
+
+      <div class="container">
+
+        <div class="section-header reveal">
+
+          <div>
+            <div class="section-label">Vorher / Nachher</div>
+            <h2>Der Unterschied<br>ist sichtbar.</h2>
+          </div>
+
+          <p class="section-intro">
+            Ziehen Sie den Regler über das Bild und sehen Sie
+            den Unterschied zwischen vorher und nachher.
+          </p>
+
+        </div>
+
+        <div class="comparison reveal" id="comparison">
+
+          <img
+            src="images/after.jpg"
+            alt="Gepflegter Außenbereich nach der Reinigung"
+          >
+
+          <img
+            class="comparison-before"
+            id="beforeImage"
+            src="images/before.jpg"
+            alt="Ungepflegter Außenbereich vor der Reinigung"
+          >
+
+          <div class="comparison-label before">VORHER</div>
+          <div class="comparison-label after">NACHHER</div>
+
+          <div class="comparison-line" id="comparisonLine"></div>
+
+          <div class="comparison-handle" id="comparisonHandle">
+            ↔
+          </div>
+
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            class="comparison-range"
+            id="comparisonRange"
+            aria-label="Vorher-Nachher-Regler"
+          >
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         WHY US
+    ========================== -->
+
+    <section>
+
+      <div class="container">
+
+        <div class="section-header reveal">
+
+          <div>
+            <div class="section-label">Warum Daris Bau & Grünwerk?</div>
+
+            <h2>
+              Gute Arbeit beginnt<br>
+              mit guter Kommunikation.
+            </h2>
+          </div>
+
+        </div>
+
+
+        <div class="why-grid">
+
+          <article class="why-card reveal">
+            <span>01</span>
+            <h3>Persönlicher Service</h3>
+            <p>
+              Direkter Kontakt statt anonymer Großbetrieb.
+            </p>
+          </article>
+
+          <article class="why-card reveal">
+            <span>02</span>
+            <h3>Saubere Arbeit</h3>
+            <p>
+              Wir achten auf einen ordentlichen Abschluss
+              der vereinbarten Arbeiten.
+            </p>
+          </article>
+
+          <article class="why-card reveal">
+            <span>03</span>
+            <h3>Zuverlässigkeit</h3>
+            <p>
+              Absprachen und vereinbarte Termine werden ernst genommen.
+            </p>
+          </article>
+
+          <article class="why-card reveal">
+            <span>04</span>
+            <h3>Flexible Lösungen</h3>
+            <p>
+              Wir schauen auf die konkrete Situation vor Ort
+              und besprechen, was sinnvoll ist.
+            </p>
+          </article>
+
+          <article class="why-card reveal">
+            <span>05</span>
+            <h3>Faire Beratung</h3>
+            <p>
+              Transparent und verständlich – ohne unnötige Leistungen.
+            </p>
+          </article>
+
+          <article class="why-card reveal">
+            <span>06</span>
+            <h3>Alles aus einer Hand</h3>
+            <p>
+              Gartenpflege, Gartensäuberung und Reinigung
+              von Außenbereichen.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PROCESS
+    ========================== -->
+
+    <section class="process">
+
+      <div class="container">
+
+        <div class="section-header reveal">
+
+          <div>
+            <div class="section-label">Ablauf</div>
+            <h2>So einfach geht's.</h2>
+          </div>
+
+          <p class="section-intro">
+            Von der ersten Anfrage bis zum fertigen Ergebnis:
+            klar, persönlich und unkompliziert.
+          </p>
+
+        </div>
+
+
+        <div class="process-grid">
+
+          <div class="process-step reveal">
+            <div class="step-number">01 — ANFRAGE</div>
+            <h3>Anfrage senden</h3>
+            <p>
+              Kontaktieren Sie uns telefonisch, per WhatsApp
+              oder über das Anfrageformular.
+            </p>
+          </div>
+
+          <div class="process-step reveal">
+            <div class="step-number">02 — ABSTIMMUNG</div>
+            <h3>Situation besprechen</h3>
+            <p>
+              Wir besprechen gemeinsam, welche Arbeiten
+              durchgeführt werden sollen.
+            </p>
+          </div>
+
+          <div class="process-step reveal">
+            <div class="step-number">03 — ANGEBOT</div>
+            <h3>Angebot erhalten</h3>
+            <p>
+              Sie erhalten eine transparente Einschätzung
+              bzw. ein individuelles Angebot.
+            </p>
+          </div>
+
+          <div class="process-step reveal">
+            <div class="step-number">04 — UMSETZUNG</div>
+            <h3>Arbeit erledigt</h3>
+            <p>
+              Die vereinbarten Arbeiten werden zuverlässig
+              und sauber durchgeführt.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PROJECTS
+    ========================== -->
+
+    <section class="projects" id="projekte">
+
+      <div class="container">
+
+        <div class="section-header reveal">
+
+          <div>
+            <div class="section-label">Projekte</div>
+
+            <h2>
+              Ergebnisse, die<br>
+              für sich sprechen.
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            Hier können später echte Projekte mit Vorher-
+            und Nachher-Fotos ergänzt werden.
+          </p>
+
+        </div>
+
+
+        <div class="project-grid">
+
+          <article class="project-card reveal">
+
+            <div class="project-image project-1"></div>
+
+            <div class="project-content">
+
+              <small>REFERENZ EINFÜGEN</small>
+
+              <h3>Garten komplett aufbereitet</h3>
+
+              <p>
+                [ECHTE PROJEKTBESCHREIBUNG HIER EINFÜGEN]
+              </p>
+
+            </div>
+
+          </article>
+
+
+          <article class="project-card reveal">
+
+            <div class="project-image project-2"></div>
+
+            <div class="project-content">
+
+              <small>REFERENZ EINFÜGEN</small>
+
+              <h3>Außenbereich gereinigt</h3>
+
+              <p>
+                [ECHTE PROJEKTBESCHREIBUNG HIER EINFÜGEN]
+              </p>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         REVIEWS
+    ========================== -->
+
+    <section id="bewertungen">
+
+      <div class="container">
+
+        <div class="section-header reveal">
+
+          <div>
+            <div class="section-label">Kundenstimmen</div>
+
+            <h2>
+              Was unsere<br>
+              Kunden sagen.
+            </h2>
+          </div>
+
+          <div>
+            <strong style="font-size:38px;">
+              [X.X / 5]
+            </strong>
+
+            <p style="color:var(--gray);">
+              Google-Bewertung · [XX Bewertungen]
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="why-grid">
+
+          <article class="why-card reveal">
+            <span>GOOGLE REVIEW</span>
+
+            <p>
+              „[GOOGLE REVIEW 1 HIER EINFÜGEN]“
+            </p>
+          </article>
+
+          <article class="why-card reveal">
+            <span>GOOGLE REVIEW</span>
+
+            <p>
+              „[GOOGLE REVIEW 2 HIER EINFÜGEN]“
+            </p>
+          </article>
+
+          <article class="why-card reveal">
+            <span>GOOGLE REVIEW</span>
+
+            <p>
+              „[GOOGLE REVIEW 3 HIER EINFÜGEN]“
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA
+    ========================== -->
+
+    <section class="cta-section">
+
+      <div class="container">
+
+        <div class="cta-box reveal">
+
+          <h2>
+            Ihr Garten könnte besser aussehen?
+          </h2>
+
+          <p>
+            Lassen Sie uns gemeinsam schauen, was wir für
+            Sie tun können.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="#kontakt" class="btn btn-primary">
+              Kostenloses Angebot anfragen →
+            </a>
+
+            <a href="tel:[TELEFONNUMMER]" class="btn btn-outline">
+              Telefonisch kontaktieren
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACT
+    ========================== -->
+
+    <section class="contact" id="kontakt">
+
+      <div class="container">
+
+        <div class="contact-grid">
+
+          <div class="reveal">
+
+            <div class="section-label">Kontakt</div>
+
+            <h2>
+              Sprechen wir<br>
+              über Ihr Projekt.
+            </h2>
+
+            <p class="section-intro" style="margin-top:25px;">
+              Beschreiben Sie kurz, was gemacht werden soll.
+              Wir melden uns anschließend bei Ihnen.
+            </p>
+
+
+            <div class="contact-info">
+
+              <div class="contact-item">
+                <small>Telefon</small>
+                <strong>
+                  <a href="tel:[TELEFONNUMMER]">
+                    [TELEFONNUMMER]
+                  </a>
+                </strong>
+              </div>
+
+              <div class="contact-item">
+                <small>E-Mail</small>
+                <strong>
+                  <a href="mailto:[E-MAIL]">
+                    [E-MAIL]
+                  </a>
+                </strong>
+              </div>
+
+              <div class="contact-item">
+                <small>Einsatzgebiet</small>
+                <strong>[STÄDTE / REGION]</strong>
+              </div>
+
+              <div class="contact-item">
+                <small>WhatsApp</small>
+                <strong>
+                  <a href="https://wa.me/[WHATSAPP-NUMMER]">
+                    Per WhatsApp anfragen →
+                  </a>
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <form
+            class="form reveal"
+            id="contactForm"
+            action="mailto:[E-MAIL]"
+            method="post"
+            enctype="text/plain"
+          >
+
+            <div class="form-row">
+
+              <div class="field">
+                <label for="name">Vorname / Name *</label>
+
+                <input
+                  id="name"
+                  name="Name"
+                  type="text"
+                  required
+                  placeholder="Max Mustermann"
+                >
+              </div>
+
+              <div class="field">
+                <label for="phone">Telefonnummer *</label>
+
+                <input
+                  id="phone"
+                  name="Telefon"
+                  type="tel"
+                  required
+                  placeholder="0123 456789"
+                >
+              </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+              <div class="field">
+                <label for="email">E-Mail</label>
+
+                <input
+                  id="email"
+                  name="E-Mail"
+                  type="email"
+                  placeholder="name@beispiel.de"
+                >
+              </div>
+
+              <div class="field">
+                <label for="location">PLZ / Ort</label>
+
+                <input
+                  id="location"
+                  name="Ort"
+                  type="text"
+                  placeholder="z. B. 27749 Delmenhorst"
+                >
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="service">
+                Gewünschte Leistung *
+              </label>
+
+              <select id="service" name="Leistung" required>
+
+                <option value="">
+                  Bitte auswählen
+                </option>
+
                 <option>Gartenpflege</option>
                 <option>Gartensäuberung</option>
                 <option>Unkrautentfernung</option>
@@ -903,206 +2038,536 @@ export default function Home() {
                 <option>Glasreinigung</option>
                 <option>Terrassendachreinigung</option>
                 <option>Terrassenreinigung</option>
+                <option>Grundstückspflege</option>
                 <option>Sonstiges</option>
+
               </select>
-            </label>
 
-            <label className="mt-5 block">
-              <span className="mb-2 block text-xs font-medium text-[#5d675f]">
-                Nachricht
-              </span>
+            </div>
+
+
+            <div class="field">
+
+              <label for="message">
+                Nachricht *
+              </label>
+
               <textarea
-                rows={5}
+                id="message"
+                name="Nachricht"
+                required
                 placeholder="Beschreiben Sie kurz, was gemacht werden soll."
-                className="w-full resize-none rounded-xl border border-[#d3d8d0] bg-[#f7f8f5] p-4 text-sm outline-none transition placeholder:text-[#a2aaa4] focus:border-[#6b806e]"
-              />
-            </label>
+              ></textarea>
 
-            <label className="mt-5 flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-[#c4cbc2] bg-[#f1f3ef] p-4 text-sm text-[#657067]">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white">
-                +
-              </span>
-              Fotos hochladen
-              <input type="file" multiple className="hidden" />
-            </label>
+            </div>
+
 
             <button
               type="submit"
-              className="mt-5 flex h-14 w-full items-center justify-center gap-3 rounded-full bg-[#18231e] text-sm font-semibold text-white transition hover:bg-[#2c4034]"
+              class="btn"
+              style="background:var(--green-900);color:white;border:0;"
             >
-              Anfrage senden
-              <ArrowIcon />
+              Anfrage senden →
             </button>
 
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-3 flex h-14 w-full items-center justify-center gap-3 rounded-full border border-[#c8d0c6] text-sm font-semibold text-[#334239]"
-            >
-              <WhatsAppIcon />
-              Per WhatsApp anfragen
-            </a>
-
-            <p className="mt-5 text-center text-[10px] leading-5 text-[#8b948e]">
-              [DATENSCHUTZHINWEIS / EINWILLIGUNG HIER EINSETZEN]
+            <p class="form-note">
+              Alternativ können Sie uns direkt per WhatsApp kontaktieren.
             </p>
+
           </form>
-        </div>
-      </section>
 
-      {/* FAQ */}
-      <section id="faq" className="bg-[#e9ece5] py-24 sm:py-32">
-        <div className="mx-auto grid max-w-[1380px] gap-12 px-5 sm:px-8 lg:grid-cols-[.7fr_1.3fr] lg:px-10">
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FAQ
+    ========================== -->
+
+    <section class="faq" id="faq">
+
+      <div class="container">
+
+        <div class="section-header reveal">
+
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5c7562]">
-              FAQ
-            </div>
-            <h2 className="mt-5 text-[clamp(2.8rem,5vw,5rem)] font-medium leading-[.95] tracking-[-0.055em]">
-              Häufige
-              <br />
-              Fragen.
-            </h2>
+            <div class="section-label">FAQ</div>
+            <h2>Häufige Fragen.</h2>
           </div>
 
-          <div className="border-t border-[#cdd3cb]">
-            {faqs.map((faq, index) => {
-              const open = faqOpen === index;
-
-              return (
-                <div
-                  key={faq.q}
-                  className="border-b border-[#cdd3cb]"
-                >
-                  <button
-                    onClick={() => setFaqOpen(open ? null : index)}
-                    className="flex w-full items-center justify-between gap-5 py-6 text-left"
-                  >
-                    <span className="text-[17px] font-medium tracking-[-0.02em]">
-                      {faq.q}
-                    </span>
-                    <span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#bfc8be] transition ${
-                        open ? "rotate-45" : ""
-                      }`}
-                    >
-                      +
-                    </span>
-                  </button>
-
-                  {open && (
-                    <div className="max-w-2xl pb-7 pr-12 text-sm leading-6 text-[#68736b]">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
         </div>
-      </section>
 
-      {/* FOOTER */}
-      <footer className="bg-[#18231e] text-white">
-        <div className="mx-auto max-w-[1380px] px-5 py-16 sm:px-8 lg:px-10">
-          <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
-            <div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#b7c8a6]/40 bg-[#294033]">
-                  <span className="font-semibold text-[#c8d8b9]">D</span>
-                </div>
-                <span className="font-semibold">{company.name}</span>
-              </div>
 
-              <p className="mt-6 max-w-sm text-sm leading-6 text-white/45">
-                Zuverlässige Arbeiten rund um Garten, Grundstück und
-                Außenbereich. Persönlich, sauber und unkompliziert.
+        <div class="faq-list">
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>Welche Arbeiten übernehmen Sie?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                Wir übernehmen unter anderem Gartenpflege,
+                Gartensäuberung, Unkrautentfernung, Heckenschnitt,
+                Rasenpflege sowie verschiedene Reinigungsarbeiten
+                rund um Haus, Garten und Außenbereich.
               </p>
             </div>
 
-            <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-[#a9bd98]">
-                Navigation
-              </div>
-              <div className="mt-5 flex flex-col gap-3 text-sm text-white/55">
-                <Link href="#leistungen">Leistungen</Link>
-                <Link href="#ueber-uns">Über uns</Link>
-                <Link href="#projekte">Projekte</Link>
-                <Link href="#bewertungen">Bewertungen</Link>
-                <Link href="#faq">FAQ</Link>
-              </div>
-            </div>
-
-            <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-[#a9bd98]">
-                Leistungen
-              </div>
-              <div className="mt-5 flex flex-col gap-3 text-sm text-white/55">
-                <span>Gartenpflege</span>
-                <span>Gartensäuberung</span>
-                <span>Heckenpflege</span>
-                <span>Rasenpflege</span>
-                <span>Hochdruckreinigung</span>
-                <span>Außenreinigung</span>
-              </div>
-            </div>
-
-            <div>
-              <div className="text-xs uppercase tracking-[0.2em] text-[#a9bd98]">
-                Kontakt
-              </div>
-              <div className="mt-5 flex flex-col gap-3 text-sm text-white/55">
-                <a href={`tel:${company.phone}`}>{company.phone}</a>
-                <a href={`mailto:${company.email}`}>{company.email}</a>
-                <span>{company.address}</span>
-                <span>{company.city}</span>
-                <span>{company.region}</span>
-              </div>
-            </div>
           </div>
 
-          <div className="mt-16 flex flex-col justify-between gap-5 border-t border-white/10 pt-7 text-[11px] text-white/35 sm:flex-row">
-            <div>© {new Date().getFullYear()} {company.name}</div>
 
-            <div className="flex flex-wrap gap-5">
-              <Link href="/impressum">Impressum</Link>
-              <Link href="/datenschutz">Datenschutz</Link>
-              <button>Cookie-Einstellungen</button>
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>In welchem Gebiet sind Sie tätig?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                [EINSATZGEBIET HIER EINTRAGEN]
+              </p>
             </div>
+
           </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>Kann ich kurzfristig eine Anfrage stellen?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                Sie können jederzeit eine Anfrage stellen.
+                Ob ein kurzfristiger Termin möglich ist,
+                hängt von der aktuellen Auslastung und dem
+                Umfang der Arbeiten ab.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>Kann ich Fotos über WhatsApp schicken?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                Wenn eine WhatsApp-Nummer vorhanden ist, können
+                Sie uns Fotos und eine kurze Beschreibung Ihres
+                Anliegens direkt per WhatsApp schicken.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>Machen Sie auch stark verwilderte Gärten?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                Ja, auch stark verwilderte oder länger nicht gepflegte
+                Außenbereiche können angefragt werden. Die konkrete
+                Vorgehensweise besprechen wir individuell.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>Übernehmen Sie einmalige Gartensäuberungen?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                Ja. Neben regelmäßiger Pflege können auch einmalige
+                Reinigungs- und Aufräumarbeiten angefragt werden.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>Bieten Sie regelmäßige Gartenpflege an?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                Regelmäßige Gartenpflege kann individuell besprochen
+                werden. Umfang und Häufigkeit richten sich nach
+                Grundstück und gewünschtem Pflegeaufwand.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>Was kostet eine Gartensäuberung?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                Die Kosten hängen unter anderem von Größe, Zustand
+                und Umfang der Arbeiten ab. Fragen Sie uns gerne
+                nach einem individuellen Angebot.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="faq-item">
+
+            <button class="faq-question">
+              <span>Kann ich mehrere Leistungen kombinieren?</span>
+              <span>+</span>
+            </button>
+
+            <div class="faq-answer">
+              <p>
+                Ja. Sie können bei Ihrer Anfrage mehrere gewünschte
+                Arbeiten miteinander kombinieren.
+              </p>
+            </div>
+
+          </div>
+
         </div>
-      </footer>
 
-      {/* MOBILE STICKY CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#18231e]/95 p-2 backdrop-blur-xl lg:hidden">
-        <div className="grid grid-cols-3 gap-2">
-          <a
-            href={`tel:${company.phone}`}
-            className="flex h-12 items-center justify-center gap-1.5 rounded-xl bg-white/10 text-[11px] font-medium text-white"
-          >
-            <PhoneIcon />
-            Anrufen
-          </a>
-
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="flex h-12 items-center justify-center gap-1.5 rounded-xl bg-[#6e936a] text-[11px] font-semibold text-white"
-          >
-            <WhatsAppIcon />
-            WhatsApp
-          </a>
-
-          <Link
-            href="#kontakt"
-            className="flex h-12 items-center justify-center rounded-xl bg-[#d7e3c9] text-[11px] font-semibold text-[#18231e]"
-          >
-            Angebot
-          </Link>
-        </div>
       </div>
-    </main>
-  );
-}
 
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div>
+
+          <a href="#" class="logo">
+
+            <div class="logo-mark">DG</div>
+
+            <div class="logo-text">
+              <strong>Daris Bau & Grünwerk</strong>
+              <span>Garten · Pflege · Sauberkeit</span>
+            </div>
+
+          </a>
+
+          <p class="footer-description">
+            Zuverlässige Arbeiten rund um Garten, Grundstück
+            und Außenbereich.
+          </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h4>Navigation</h4>
+
+          <a href="#leistungen">Leistungen</a>
+          <a href="#ueber-uns">Über uns</a>
+          <a href="#projekte">Projekte</a>
+          <a href="#bewertungen">Bewertungen</a>
+          <a href="#faq">FAQ</a>
+          <a href="#kontakt">Kontakt</a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h4>Kontakt</h4>
+
+          <a href="tel:[TELEFONNUMMER]">
+            [TELEFONNUMMER]
+          </a>
+
+          <a href="mailto:[E-MAIL]">
+            [E-MAIL]
+          </a>
+
+          <p>[ADRESSE]</p>
+          <p>[PLZ] [ORT]</p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h4>Rechtliches</h4>
+
+          <a href="impressum.html">
+            Impressum
+          </a>
+
+          <a href="datenschutz.html">
+            Datenschutz
+          </a>
+
+          <a href="#">
+            Cookie-Einstellungen
+          </a>
+
+          <h4 style="margin-top:25px;">
+            Social Media
+          </h4>
+
+          <a href="[INSTAGRAM]" target="_blank">
+            Instagram
+          </a>
+
+          <a href="[FACEBOOK]" target="_blank">
+            Facebook
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <span>
+          © <span id="year"></span> Daris Bau & Grünwerk
+        </span>
+
+        <span>
+          Alle Rechte vorbehalten.
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       MOBILE CTA
+  ========================== -->
+
+  <div class="mobile-cta">
+
+    <div class="mobile-cta-grid">
+
+      <a href="tel:[TELEFONNUMMER]">
+        ☎ Anrufen
+      </a>
+
+      <a href="https://wa.me/[WHATSAPP-NUMMER]" target="_blank">
+        WhatsApp
+      </a>
+
+      <a href="#kontakt">
+        Angebot
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    /* =========================
+       HEADER SCROLL
+    ========================== */
+
+    const header = document.getElementById("header");
+
+    window.addEventListener("scroll", () => {
+
+      if (window.scrollY > 30) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+
+    });
+
+
+    /* =========================
+       MOBILE MENU
+    ========================== */
+
+    const menuToggle = document.getElementById("menuToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const mobileClose = document.getElementById("mobileClose");
+
+    menuToggle.addEventListener("click", () => {
+      mobileMenu.classList.add("active");
+      document.body.style.overflow = "hidden";
+    });
+
+    mobileClose.addEventListener("click", closeMenu);
+
+    document.querySelectorAll(".mobile-links a").forEach(link => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    function closeMenu() {
+      mobileMenu.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+
+    /* =========================
+       FAQ
+    ========================== */
+
+    document.querySelectorAll(".faq-question").forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        const item = button.parentElement;
+        const answer = item.querySelector(".faq-answer");
+
+        document.querySelectorAll(".faq-item").forEach(other => {
+
+          if (other !== item) {
+            other.classList.remove("active");
+            other.querySelector(".faq-answer").style.maxHeight = null;
+          }
+
+        });
+
+        item.classList.toggle("active");
+
+        if (item.classList.contains("active")) {
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        } else {
+          answer.style.maxHeight = null;
+        }
+
+      });
+
+    });
+
+
+    /* =========================
+       BEFORE / AFTER SLIDER
+    ========================== */
+
+    const range = document.getElementById("comparisonRange");
+    const beforeImage = document.getElementById("beforeImage");
+    const comparisonLine = document.getElementById("comparisonLine");
+    const comparisonHandle = document.getElementById("comparisonHandle");
+
+    function updateComparison() {
+
+      const value = range.value;
+
+      beforeImage.style.clipPath =
+        `inset(0 ${100 - value}% 0 0)`;
+
+      comparisonLine.style.left = value + "%";
+      comparisonHandle.style.left = value + "%";
+
+    }
+
+    range.addEventListener("input", updateComparison);
+
+    updateComparison();
+
+
+    /* =========================
+       SCROLL REVEAL
+    ========================== */
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    document.querySelectorAll(".reveal").forEach(element => {
+      observer.observe(element);
+    });
+
+
+    /* =========================
+       YEAR
+    ========================== */
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+
+    /* =========================
+       FORM
+    ========================== */
+
+    const contactForm =
+      document.getElementById("contactForm");
+
+    contactForm.addEventListener("submit", () => {
+
+      const button =
+        contactForm.querySelector("button");
+
+      button.textContent = "Anfrage wird vorbereitet ...";
+
+    });
+
+  </script>
+
+</body>
+</html>
